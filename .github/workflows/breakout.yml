@@ -24,23 +24,22 @@ jobs:
           paddle_color: "#6C3483"
           bricks_colors: "#E8DAEF,#C39BD3,#9B59B6,#7D3C98,#6C3483"
 
-      - name: Move generated SVGs to temp
+      - name: Move generated SVG to temp
         run: |
           mkdir -p /tmp/breakout-images
-          mv output/light.svg /tmp/breakout-images/breakout-light.svg
-          mv output/dark.svg /tmp/breakout-images/breakout-dark.svg
+          mv output/custom.svg /tmp/breakout-images/breakout.svg
 
       - name: Configure git
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Commit and force-push SVGs to target branch
+      - name: Commit and force-push SVG to target branch
         run: |
           git checkout --orphan github-breakout
           git rm -rf .
           mkdir images
-          mv /tmp/breakout-images/* images/
+          mv /tmp/breakout-images/breakout.svg images/
           git add images
-          git commit -m "chore: update GitHub breakout SVGs" || echo "No changes"
+          git commit -m "chore: update GitHub breakout SVG" || echo "No changes"
           git push --force origin github-breakout
